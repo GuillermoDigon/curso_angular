@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Contador de clicks</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app ng-init="contador=0">
+		
+		<h1>Contador de clicks</h1>
+
+		<button ng-click="contador = contador + 1">Hazme click!</button>
+		<p>Has hecho <strong>{{contador}}</strong> clicks!</p>
+
+	</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Pizzeria</title>
+<script src="../angular.js"></script>
+<script src="../checklist-model.js"></script>
+</head>
+<body ng-app="pizza" ng-controller="pizzaController">
+
+<form name="pedido">
+
+<p> Nombre: <input type="text" name="nombre" ng-model="inputNombre" required/>
+	<span ng-show="pedido.nombre.$dirty&&pedido.nombre.$invalid"> 
+		Es obligatorio que nos indiques tu nombre </span>
+</p>
+<p> Dirección: <input type="text" name="direccion" ng-model="inputDireccion" required/>
+	<span ng-show="pedido.direccion.$dirty&&pedido.direccion.$invalid"> 
+		La dirección de envío es obligatoria </span>
+</p>
+<p> Hora entrega: <input type="time" name="hora" ng-model="inputHora" min="11:00" max="23:00" step="1800" required>
+	<span ng-show="pedido.hora.$dirty&&pedido.hora.$invalid"> 
+		A esta hora no realizamos envíos
+		<span ng-show="pedido.hora.$error.min">, tendrás que esperar un poco más a que abramos la tienda</span>
+		<span ng-show="pedido.hora.$error.max">, prueba a pedirla un poco antes</span>
+	</span>
+</p>
+<p ng-form="fSize"> Tamaño de la Pizza: 
+	<input type="radio" name="size" ng-model="inputSize" value="familiar"> Familiar
+	<input type="radio" name="size" ng-model="inputSize" value="mediana"> Mediana
+	<input type="radio" name="size" ng-model="inputSize" value="individual"> Individual
+	<p><span ng-show="!vSize&&!inputSize">Escoge un tamaño para tu pizza</span><p>
+</p>
+<fieldset>
+<legend>Ingredientes </legend>
+<p><input type="checkbox" name="bacon" checklist-model="inputIngredientes" checklist-value="bacon"/> Bacon</p>
+<p><input type="checkbox" name="queso" checklist-model="inputIngredientes" checklist-value="queso"/> Extra Queso</p>
+<p><input type="checkbox" name="cebolla" checklist-model="inputIngredientes" checklist-value="cebolla"/> Cebolla</p>
+<p><input type="checkbox" name="champi" checklist-model="inputIngredientes" checklist-value="champi"/> Champiñones</p>
+<p ng-hide="vIngredientes||(aIngredientes.length>1)">Tienes que escoger al menos 2 ingredientes</p>
+</fieldset>
+
+<p>{{vIngredientes}} - {{aIngredientes.length>1}} </p>
+
+<p><button ng-show="pedido.$dirty&&pedido.$valid" ng-click="validar()">
+		Eviar Pedido</button></p>
+</form>
+
+
+
+
+<script>
+  var app= angular.module("pizza",["checklist-model"]);
+  app.controller("pizzaController",function($scope){
+	  
+	  $scope.vSize=true;
+	  $scope.vIngredientes=true;
+	  
+	  $scope.aIngredientes=[];
+	  
+	  $scope.validar=function(){
+		  if ($scope.pedido.fSize.$pristine){
+			  $scope.vSize=false;
+		  }
+		  
+		  if ($scope.aIngredientes.length < 2){
+			  $scope.vIngredientes = false;
+		  }
+	  }
+	  
+	  $scope.toggle=function(x){
+		  if($scope.aIngredientes.indexOf(x)==-1)
+			  $scope.aIngredientes.push(x);
+		  else $scope.aIngredientes.splice($scope.aIngredientes.indexOf(x),1);
+	  }
+  })
+  
+
+</script>
+
+</body>
+</html>

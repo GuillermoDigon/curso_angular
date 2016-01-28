@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Información del almacén</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app ng-init="productos = [
+		{nombre:'Silla', cantidad:9, precio:4.95, disponible:true},
+		{nombre:'Escoba', cantidad:5, precio:7.99, disponible:false},
+		{nombre:'Mesa', cantidad:13, precio:23.45, disponible:true},
+		{nombre:'Lápiz', cantidad:6, precio:1.87, disponible:false},
+		{nombre:'Lámpara', cantidad:17, precio:11.99, disponible:true}]">
+		
+		<h1>Información del almacén</h1>
+		<table>
+			<thead><tr>
+				<th>Nombre</th>
+				<th>Cantidad</th>
+				<th>Precio</th>
+				<th>Disponible</th>
+			</tr></thead>
+			<tbody>
+				<tr ng-repeat="producto in productos">
+					<td>{{producto.nombre}}</td>
+					<td>{{producto.cantidad}}</td>
+					<td>{{producto.precio}}</td>
+					<td>{{producto.disponible}}</td>
+				</td>
+			</tbody>
+		</table>
+
+	</body>
+</html>

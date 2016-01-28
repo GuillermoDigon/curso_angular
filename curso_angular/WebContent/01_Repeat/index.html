@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Listado de personas</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app ng-init="personas = [{nombre:'Juan', edad:29},{nombre:'Lucas', edad:22},{nombre:'Rocio', edad:23},{nombre:'Leo', edad:24},{nombre:'Inés', edad:25}]">
+
+		<ul>
+			<li ng-repeat="persona in personas">
+				<strong>{{persona.nombre}}</strong> - {{persona.edad}}
+			</li>
+		</ul>
+
+	</body>
+</html>

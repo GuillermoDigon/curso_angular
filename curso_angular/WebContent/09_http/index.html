@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Terremotos</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="appTerremotos" ng-controller="contTerremotos">
+	
+		<h1>Terremotos</h1>
+
+		<p>{{datos}}</p>
+		
+		<script>
+		
+		  var app = angular.module("appTerremotos",[]);
+		  app.controller("contTerremotos",function($scope, $http){
+			  $http.get("http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson")
+			  	.success(function(data){
+			  		$scope.datos = data.features;
+			  	})
+
+		  });
+		</script>
+	</body>
+</html>

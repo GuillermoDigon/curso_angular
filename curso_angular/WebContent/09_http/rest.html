@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Terremotos</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="appRest" ng-controller="contRest">
+	
+		<h1>Gestor de Posts</h1>
+		
+		<p>
+			<button ng-click="add()">Añade un post</button>
+		</p>
+		
+		<ul>
+			<li ng-repeat="dato in datos">
+			{{dato.title}}
+			</li>
+		</ul>
+		
+		<script>
+		
+		  var app = angular.module("appRest",[]);
+		  app.controller("contRest",function($scope, $http){
+			  
+			  var url = "http://jsonplaceholder.typicode.com";
+			  
+			  $http.get(url + "/posts")
+			  	.success(function(data){
+			  		$scope.datos = data;
+			  	});
+			  	
+			  var post = {
+					  userId:1,
+					  id:1,
+					  title:'Esto es el título',
+					  body:'Esto es el body'
+			  };
+			  $scope.add = function() {
+				  $http.put(url+"/posts/1", post)
+				  	.success(function(data){
+				  		//alert(data);
+				  		console.log(data);
+				  	});
+			  }
+
+		  });
+		</script>
+	</body>
+</html>

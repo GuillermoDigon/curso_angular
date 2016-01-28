@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Pizzeria</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<script src="../angular.js"></script>
+		<script src="../checklist-model.js"></script>
+	</head>
+	<body ng-app="appPizza" ng-controller="contPizza">
+	
+		<div class="container"><br/>
+			<form name="pedido">
+				<fieldset>
+	    			<legend>Datos del cliente</legend>
+					<div class="form-group row"> 
+						<label class="col-sm-2 form-control-label">Nombre:</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" name="nombre" ng-model="inputNombre" required>
+						</div> 
+					</div>
+					<div class="form-group row errors" ng-show="pedido.nombre.$dirty&&pedido.nombre.$invalid"> 
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="alert alert-danger" ><!-- ng-show="pedido.nombre.$error.required" -->
+								<strong><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Atención!</strong> El campo nombre del cliente es obligatorio
+							</div>
+						</div> 
+					</div>
+					
+					<div class="form-group row"> 
+						<label class="col-sm-2 form-control-label">Dirección:</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="text" name="direccion" ng-model="inputDireccion" required>
+						</div> 
+					</div> 
+					<div class="form-group row errors" ng-show="pedido.direccion.$dirty&&pedido.direccion.$invalid"> 
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="alert alert-danger" ><!-- ng-show="pedido.direccion.$error.required" -->
+								<strong><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Atención!</strong> El campo dirección del cliente es obligatorio
+							</div>
+						</div> 
+					</div>
+	
+					<div class="form-group row"> 
+						<label class="col-sm-2 form-control-label">Hora de entrega:</label>
+						<div class="col-sm-10">
+							<input class="form-control" type="time" name="hora" ng-model="inputHora" min="11:00" max="23:00" step="1800" required>
+						</div> 
+					</div> 
+					<div class="form-group row errors" ng-show="pedido.hora.$dirty&&pedido.hora.$invalid"> 
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="alert alert-danger" ng-show="pedido.hora.$error.min">
+								<strong><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Atención!</strong> La hora de entrega es incorrecta: tendrás que esperar un poco más a que abramos la tienda
+							</div>
+							<div class="alert alert-danger" ng-show="pedido.hora.$error.max">
+								<strong><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Atención!</strong> La hora de entrega es incorrecta: prueba a pedirla un poco antes
+							</div>
+						</div> 
+					</div>
+	
+					<div class="form-group row"> 
+						<label class="col-sm-2 form-control-label">Tamaño de la pizza:</label>
+						<div class="col-sm-10" ng-form="fSize">
+							<div class="radio">
+								<label>
+									<input type="radio" name="size" ng-model="inputSize" value="familiar">
+									Familiar
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="size" ng-model="inputSize" value="mediana">
+									Mediana
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="size" ng-model="inputSize" value="individual">
+									Individual
+								</label>
+							</div>
+						</div>
+					</div>
+					<p><span ng-show="!vSize&&!inputSize">Escoge un tamaño para tu pizza</span><p>
+					<!-- TODO: Falta la validación de un tipo seleccionado -->
+					<!-- <div class="form-group row errors" ng-show="!vSize&&!inputSize"> 
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="alert alert-danger">
+								<strong><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Atención!</strong> Debes seleccionar el tamaño de la pizza
+							</div>
+						</div> 
+					</div> -->
+										
+					<div class="form-group row"> 
+						<label class="col-sm-2 form-control-label">Ingredientes:</label>
+						<div class="col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="bacon" checklist-model="inputIngredientes" checklist-value="bacon" />
+									Bacon 
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="queso" checklist-model="inputIngredientes" checklist-value="queso" />
+									Extra de Queso
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="cebolla" checklist-model="inputIngredientes" checklist-value="cebolla" />
+									Cebolla
+								</label>
+							</div>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="champinones" checklist-model="inputIngredientes" checklist-value="champinones" />
+									Champiñones
+								</label>
+							</div>
+						</div>
+					</div>
+					<p ng-hide="vIngredientes||(aIngredientes.length>1)">Tienes que escoger al menos 2 ingredientes</p>
+					<!-- TODO: Falta la validación de dos tipos seleccionados -->
+					<!-- <div class="form-group row errors" ng-hide="vIngredientes || (aIngredientes.length > 1)"> 
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="alert alert-danger">
+								<strong><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Atención!</strong> Debes seleccionar al menos dos ingredientes
+							</div>
+						</div> 
+					</div> -->
+
+<!-- <p>aIngredientes: {{aIngredientes}}</p>
+<p>vIngredientes: {{vIngredientes}}</p> -->
+
+					<div class="form-group row">  
+						<div class="col-sm-offset-2 col-sm-10">
+							<button class="btn btn-success" ng-show="pedido.$dirty&&pedido.$valid" ng-click="validar()">Enviar pedido</button>
+						</div>
+					<div> 
+				</fieldset>				
+			</form>
+		<div> 
+	 	
+		<script>
+		
+			 var app = angular.module("appPizza", ["checklist-model"])
+			 app.controller("contPizza",function($scope){
+			 	$scope.vSize = true;
+			 	$scope.vIngredientes = true;
+			 	
+			 	$scope.aIngredientes=[];
+
+			 	$scope.validar = function() {
+			 		if ($scope.pedido.fsize.$pristine)
+			 			$scope.vSize = false;
+			 		if ($scope.aIngredientes.length < 2)
+				 		$scope.vIngredientes = false;
+			 	}
+				$scope.toggle=function(x){
+					if($scope.aIngredientes.indexOf(x)==-1)
+						$scope.aIngredientes.push(x);
+					else 
+						$scope.aIngredientes.splice($scope.aIngredientes.indexOf(x),1);
+				}
+
+		 	})
+		
+		</script>
+	
+	</body>
+</html>

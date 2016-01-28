@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Listado de Personas</title>
+<script src="../angular.js"></script>
+</head>
+<body ng-app="app" ng-controller="controller">
+
+<p> Nombre: <input type="text" ng-model="inputNombre"/></p>
+<p> Ciudad: <input type="text" ng-model="inputCiudad"/></p>
+<p><button ng-click="guardar()"> Añadir Persona</button>
+
+<p>Filtro: <input type="text" ng-model="filtro"/></p>
+<ul>
+	<li ng-repeat="item in lista|filter:{nombre:filtro}">
+	   {{item.nombre}} - {{item.ciudad|uppercase}}
+	</li>
+</ul>
+
+<script>
+
+  var app = angular.module("app",[]);
+  app.controller("controller",function($scope,miFactoria){
+	
+	  $scope.lista = miFactoria.getPersonas();
+	  $scope.guardar=function(){
+		  var item = {nombre:$scope.inputNombre, ciudad:$scope.inputCiudad};
+		  $scope.lista.push(item);
+	  }
+	  
+  });
+  app.factory("miFactoria",function(){
+	  
+	  var factoria={};
+	  var personas=[{nombre:"Pepito", ciudad:"Santiago"},
+	                {nombre:"Fulanito", ciudad:"Málaga"},
+	                {nombre:"Menganito", ciudad:"Cuenca"}];
+	  
+	  factoria.getPersonas=function(){
+		  return personas;
+	  }
+	  
+	  return factoria;
+	  
+  })
+
+</script>
+</body>
+</html>

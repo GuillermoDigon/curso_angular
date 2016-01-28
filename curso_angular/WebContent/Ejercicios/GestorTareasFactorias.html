@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Gestor de tareas</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="miApp" ng-controller="mainController">
+		<div class="container">
+			<h1>Gestor de tareas</h1>
+	
+			<form name="tarea">
+			<legend>Tarea</legend>
+				<input type="hidden" ng-model="id">
+				<div class="form-group row"> 
+					<label class="col-sm-2 form-control-label">Tarea:</label>
+					<div class="col-sm-10">
+						<input class="form-control" type="text" ng-model="nombre">
+					</div> 
+				</div>
+				<div class="form-group row"> 
+					<label class="col-sm-2 form-control-label">Estado:</label>
+					<div class="col-sm-10">
+						<div class="radio">
+							<label>
+								<input type="radio" name="estado" ng-model="radioEstado" value="todo">
+								To Do
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="estado" ng-model="radioEstado" value="progress">
+								Progress
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="estado" ng-model="radioEstado" value="done">
+								Done
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row"> 
+					<label class="col-sm-2 form-control-label">Detalles:</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" ng-model="detalles"></textarea> 
+					</div> 
+				</div> 
+				<div class="form-group row">  
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-success" id="submit" ng-click="submit()">Guardar</button>
+						<button type="reset" class="btn btn-warning" id="reset">Resetear</button>
+						<button class="btn btn-danger" id="reset">Borrar</button>
+
+					</div>
+
+					<!-- <input type="submit" id="submit" value="Guardar" />
+					<input type="submit" id="submit" value="Borrar" />
+					<input type="reset" id="submit" value="Resetear" /> -->
+					
+				<div> 
+			</form>
+
+			<table class="table">
+				<thead><tr>
+					<th>#</th>
+					<th>Tarea</th>
+					<th>To Do</th>
+					<th>Progress</th>
+					<th>Done</th>
+					<th>Action</th>
+				</tr></thead>
+				<tbody>
+					<tr ng-repeat="item in tareas">
+						<td>{{item.id}}</td><!-- FIXME: Arreglar índice -->
+						<td>{{item.nombre}}</td>
+						<td>{{item.todo}}</td>
+						<td>{{item.progress}}</td>
+						<td>{{item.done}}</td>
+						<td>
+							<button type="button" class="btn btn-sm btn-primary" aria-label="Left Align" ng-click="loadForm(item.id)">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Edit
+							</button>
+							<button type="button" class="btn btn-sm btn-danger" aria-label="Left Align" ng-click="deleteForm(item.id)">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+							</button>
+						</td>
+					</td>
+				</tbody>
+			</table>
+	
+		</div>
+				
+		<script>
+			var app = angular.module("miApp", []);
+			app.controller("mainController", ['$scope', function($scope,tareasFactoria) {
+				$scope.tareas = miFactoria.getTareas(); //[];
+				$scope.deleteForm = function(id) {
+					$scope.tareas.splice(id-1, 1);
+				}
+				$scope.loadForm = function(id) {
+					var item = $scope.tareas[id-1];
+					$scope.id = item.id;
+					$scope.nombre = item.nombre;
+					$scope.estado = item.estado;
+					$scope.detalles = item.detalles;
+				};
+				$scope.submit = function() {
+					if ($scope.id) { // Actualizar registro
+						$scope.tareas[$scope.id-1].nombre = this.nombre; 
+						$scope.tareas[$scope.id-1].estado = this.estado; 
+						$scope.tareas[$scope.id-1].detalles = this.detalles; 
+
+						$scope.tareas[$scope.id-1].todo = (this.estado=="todo")?"X":""; 
+						$scope.tareas[$scope.id-1].progress = (this.estado=="progress")?"X":""; 
+						$scope.tareas[$scope.id-1].done = (this.estado=="done")?"X":""; 
+					} else { // Nuevo registro
+						var item = {
+							id: $scope.tareas.length+1, //index,
+							nombre: this.nombre,
+							estado: this.estado,
+							detalles: this.detalles,
+							
+							todo: (this.estado=="todo")?"X":"",
+							progress: (this.estado=="progress")?"X":"",
+							done: (this.estado=="done")?"X":""
+						};
+						miFactoria.addTarea(item);
+						//var index = $scope.tareas.length > 0 ? $scope.tareas[$scope.tareas.length-1].id+1 : 1;
+						/*$scope.tareas.push({
+							id: $scope.tareas.length+1, //index,
+							nombre: this.nombre,
+							estado: this.estado,
+							detalles: this.detalles,
+							
+							todo: (this.estado=="todo")?"X":"",
+							progress: (this.estado=="progress")?"X":"",
+							done: (this.estado=="done")?"X":""
+						});*/
+					}
+					// Reset form fields
+					$scope.id = '';
+					$scope.nombre = '';
+					$scope.estado = '';
+					$scope.detalles = '';
+				};
+			}]);
+
+			app.factory("tareasFactoria",function(){
+				var factoria={};
+				var tareas=[];
+				
+				factoria.getTareas=function(){
+					return tareas;
+				}
+				
+				factoria.addTarea = function(tarea) {
+					tareas.push(tarea);
+					return 'Tarea añadida satisfactoriamente!!!';
+				};
+
+				return factoria;
+			});
+			
+		</script>
+
+
+	</body>
+</html>

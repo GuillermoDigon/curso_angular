@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="../angular.js"></script>
+<script src="../checklist-model.js"></script>
+</head>
+<body ng-app="app" ng-controller="controller">
+
+	<label>
+		<input type="checkbox" checklist-model="user.roles" checklist-value="g">
+		guest
+	</label>
+	<label>
+		<input type="checkbox" checklist-model="user.roles" checklist-value="b">
+		admin
+	</label>
+	<label>
+		<input type="checkbox" checklist-model="user.roles" checklist-value="c">
+		user
+	</label>
+	<label>
+		<input type="checkbox" checklist-model="user.roles" checklist-value="d">
+		customer
+	</label>
+
+ {{roles}}
+ {{user.roles}}
+
+<script>
+	
+
+ var app = angular.module("app",["checklist-model"]);
+ app.controller("controller",function($scope){
+	
+	 $scope.roles=[{a:"guest"},{b:"user"},{c:"customer"},{d:"admin"}];
+	 $scope.user ={roles:["user"]};
+	 
+ });
+	
+	
+
+
+</script>
+
+</body>
+</html>

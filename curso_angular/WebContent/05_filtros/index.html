@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Jugando con los filtros</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+		
+		<h1>Filtros sobre expresiones</h1>
+		
+		<p>Uppercase: {{texto | uppercase}}</p>
+		<p>Lowercase: {{texto | lowercase}}</p>
+		
+		<p>Número con 3 dígitos: {{numero | number:3}}</p>
+		<p>Moneda: {{numero | currency}}</p>
+		<p>Moneda (€): {{numero | currency:"€"}}</p>
+
+		<input type="datetime-local" ng-model="fecha" />
+		<p>Fecha original: {{fecha}}</p>
+		<p>Fecha (short): {{fecha | date:'short'}}</p>
+		<p>Fecha (fullDate): {{fecha | date:'fullDate'}}</p>
+		<p>Fecha (format:'dd-MM-yyyy HH:mm:ss Z'): {{fecha | date:'dd-MM-yyyy HH:mm:ss'}}</p>
+
+		<script>
+			var app = angular.module("app", []);
+			app.controller("cont", function($scope) {
+				$scope.texto = "Este es un texto";
+				$scope.numero = 25;
+			});
+		</script>
+	
+	</body>
+</html>

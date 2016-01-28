@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Jugando con los filtros</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+		
+		<ul>
+			<li ng-repeat="item in lista">{{item|miFiltro}}</li>
+		</ul>
+		
+		<script>
+			var app = angular.module("app", [])
+				.controller("cont", function($scope) {
+					$scope.lista = ["Juan","Pepito","Fulanito","Menganito"];
+				})
+				.filter("miFiltro", function() {
+					return function(x) {
+						var c, txt="";
+						var cadena = x.split("");
+						for (var i=0; i < cadena.length; i++) {
+							c = cadena[i];
+							if (i%2 === 0)
+								c = c.toUpperCase();
+							else
+								c = c.toLowerCase();
+							txt = txt + c;
+						}
+						return txt;
+					}
+				})
+		</script>
+	
+	</body>
+</html>

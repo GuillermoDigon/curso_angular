@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Gestor de Tareas</title>
+<script src="../angular.js"></script>
+</head>
+<body ng-app="appTareas" ng-controller="contTareas">
+
+<h1>Gestor de Tareas</h1>
+
+<form>
+  <p>Tarea: <input type="text" ng-model="nombreTarea"/> </p>
+  <p>Estado: <input type="radio" ng-model="estadoTarea" value="todo"/> To Do
+  			 <input type="radio" ng-model="estadoTarea" value="prog"/> Progress
+  			 <input type="radio" ng-model="estadoTarea" value="done"/> Done </p>
+  <p>Detalle: <textarea ng-model="detalleTarea"></textarea>
+  <input type="hidden" ng-model="idTarea">
+  <p> <button ng-click="guardar()">Guardar Cambios</button>
+      <button ng-click="borrar()">Borrar Tarea</button>
+      <button ng-click="nuevo()">Nuevo Registro</button> </p>
+</form>
+
+<table>
+<thead>
+  <tr>
+  	<th>Id</th>
+  	<th>Tarea</th>
+  	<th>To Do</th>
+  	<th>Progress</th>
+  	<th>Done</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="tarea in tareas" ng-click="editar(tarea)">
+    <td>{{tarea.id}}</td>
+    <td>{{tarea.nombre}}</td>
+    <td>{{tarea.todo}}</td>
+    <td>{{tarea.prog}}</td>
+    <td>{{tarea.done}}</td>
+  </tr>
+</tbody>
+</table>
+
+<script>
+
+var app = angular.module("appTareas",[]);
+app.controller("contTareas",function($scope, taskFactory){
+	
+	$scope.tareas = [];
+	var posicion=0;
+	$scope.indice=0;
+	var nuevo=true;
+	
+	init();
+	
+	function init() {
+		$scope.tareas = [];
+		$scope.tareas = taskFactory.getTask();
+		$scope.indice = taskFactory.getIndex();
+	}
+	
+	$scope.guardar=function(){
+		var tarea = {
+			id:$scope.indice,
+			nombre:$scope.nombreTarea,
+			todo: ($scope.estadoTarea == "todo"?"X":" "),
+			prog: ($scope.estadoTarea == "prog"?"X":" "),
+			done: ($scope.estadoTarea == "done"?"X":" "),
+			detalle:$scope.detalleTarea
+		}
+		if (nuevo){
+			$scope.tareas.push(tarea);
+			window.localStorage.setItem("Tarea:"+tarea.id, JSON.stringify(tarea));
+			$scope.indice = $scope.indice+1;
+			window.localStorage.setItem("indice", $scope.indice);
+		}
+		else {
+			$scope.tareas[posicion]=tarea;
+			window.localStorage.setItem("Tarea:"+tarea.id, JSON.stringify(tarea));
+			nuevo=true;
+		}
+		resetear();
+	}
+	
+	$scope.editar=function(aux){
+		$scope.nombreTarea=aux.nombre;
+		$scope.estadoTarea=(aux.todo=="X"?"todo":(aux.prog=="X"?"prog":"done"));
+		$scope.detalleTarea=aux.detalle;	
+		$scope.idTarea=aux.id;
+		
+		nuevo = false;
+		posicion = $scope.tareas.indexOf(aux);
+	}
+	
+	$scope.borrar=function(){
+		window.localStorage.removeItem("Tarea:"+$scope.idTarea);
+		init();
+		nuevo=true;
+		resetear();
+	}
+	
+	$scope.nuevo= function(){
+		nuevo=true;
+		resetear();
+	}
+	
+	function resetear(){
+		$scope.nombreTarea="";
+		$scope.estadoTarea="";
+		$scope.detalleTarea="";		
+		$scope.idTarea="";		
+	}
+	
+});
+
+app.factory("taskFactory",function(){
+	var factoria={};
+	var indice = window.localStorage.getItem("indice");
+	var taskList = [];
+
+	if (!indice) {
+		window.localStorage.setItem("indice", 1);
+		indice=1;
+	}
+	
+	factoria.getIndex=function(){
+		return indice;
+	}
+
+	factoria.getTask=function(){
+		if (window.localStorage.length - 1) {
+			taskList = [];
+			var i, key;
+			for (var i=0; i < window.localStorage.length; i++) {
+				key = window.localStorage.key(i);
+				if (/Tarea:\d+/.test(key)) { // El registro comienza por "Tarea:"
+					taskList.push(JSON.parse(window.localStorage.getItem(key)));
+				}
+			}
+		}
+		return taskList;
+	}
+
+	return factoria;
+
+})
+
+</script>
+
+</body>
+</html>

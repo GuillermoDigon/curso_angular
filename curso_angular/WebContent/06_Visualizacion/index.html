@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Visualizacion elementos</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+	
+	 	<p>
+	 		Introduce tu nombre: <input ng-model="nombre"/>
+	 		<button ng-show="nombre" ng-click="saludar()">Saludar</button> 
+	 	</p>
+	 		
+	 	<p>
+	 		Haz click para ocultar el botón: 
+	 		<input type="checkbox" ng-model="check"/>
+	 	</p>
+	 		
+	 	<p>
+	 		<button ng-hide="check"> botón</button>
+	 	</p>
+	 	
+		<script>
+		
+			 var app = angular.module("app", []);
+			 app.controller("cont",function($scope){
+				$scope.saludar=function() {
+					alert("Hola "+ $scope.nombre+"!!!");
+				}
+			 })
+		
+		</script>
+	
+	</body>
+</html>

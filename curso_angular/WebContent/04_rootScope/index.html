@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Manejando el rootScope</title>
+<script src="../angular.js"></script>
+</head>
+<body ng-app="app">
+
+	<div ng-controller="cont">
+		<p>Estoy en el scope: {{valor}}</p>	
+		<p>Estoy en el scope: {{otroValor}}</p>
+		<p>Estoy en el scope: {{$parent.valor}}</p>
+	</div>
+	<div>
+	 	<p>Estoy fuera del scope: {{valor}}</p>	
+	</div>
+
+<script>
+
+ var app = angular.module("app", []);
+ app.controller("cont",function($scope,$rootScope){
+	
+	$scope.valor = "Valor en el scope";
+	$rootScope.valor="Valor en el módulo";
+	$rootScope.otroValor="Otro valor en el módulo";
+	 
+ })
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Jugando con los filtros</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+		
+		<h1>Filtros sobre listas</h1>
+
+		<ul>
+			<li ng-repeat="persona in personas | filter:'u' | orderBy:'edad'">
+				{{persona.nombre}} - {{persona.edad}}
+			</li>
+		</ul>
+		
+		<script>
+			var app = angular.module("app", []);
+			app.controller("cont", function($scope) {
+				$scope.personas = [
+					{nombre:"Juan", edad:29},
+					{nombre:"Pepito", edad:25},
+					{nombre:"Fulanito", edad:23},
+					{nombre:"Menganito", edad:35}
+				];
+			});
+		</script>
+	
+	</body>
+</html>

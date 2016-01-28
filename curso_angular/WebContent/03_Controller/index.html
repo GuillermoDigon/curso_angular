@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Contador de clicks</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="miApp" ng-controller="miController">
+		
+		<h1>Contador de clicks</h1>
+
+		<button ng-click="contador = contador + 1">Hazme click!</button>
+		<p>Has hecho <strong>{{contador}}</strong> clicks!</p>
+
+		<script>
+			var app = angular.module("miApp", []);
+			app.controller("miController", function($scope) {
+				$scope.contador=0;
+				$scope.incrementar=function(){
+					$scope.contador+=1;
+				};
+			});
+
+			// Método alternativo 
+			/* app.controller("miController", controlador);
+			
+			function controlador($scope) {
+				$scope.contador=0;
+				$scope.incrementar=function(){
+					$scope.contador+=1;
+				};
+			}*/
+		</script>
+		
+	</body>
+</html>
