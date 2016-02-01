@@ -10,10 +10,12 @@
 <div class="row marketing">
   <h4>Lista de elementos</h4>
   
-  <ul>
-  	<li ng-repeat="elemento in elementos">
-  		{{elemento}}
-  	</li>
-  </ul>
+  <table>
+  	<tr ng-repeat="elemento in elementos">
+  		<td>{{$index}}</td>
+  		<td>{{elemento}}</td>
+  	</tr>
+  	</thead>
+  </table>
 
 </div>

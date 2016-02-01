@@ -1,51 +1,92 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="ISO-8859-1">
-		<title>Terremotos</title>
-		<script src="../angular.js"></script>
-	</head>
-	<body ng-app="appRest" ng-controller="contRest">
-	
-		<h1>Gestor de Posts</h1>
-		
-		<p>
-			<button ng-click="add()">Añade un post</button>
-		</p>
-		
-		<ul>
-			<li ng-repeat="dato in datos">
-			{{dato.title}}
-			</li>
-		</ul>
-		
-		<script>
-		
-		  var app = angular.module("appRest",[]);
-		  app.controller("contRest",function($scope, $http){
-			  
-			  var url = "http://jsonplaceholder.typicode.com";
-			  
-			  $http.get(url + "/posts")
-			  	.success(function(data){
-			  		$scope.datos = data;
-			  	});
-			  	
-			  var post = {
-					  userId:1,
-					  id:1,
-					  title:'Esto es el título',
-					  body:'Esto es el body'
-			  };
-			  $scope.add = function() {
-				  $http.put(url+"/posts/1", post)
-				  	.success(function(data){
-				  		//alert(data);
-				  		console.log(data);
-				  	});
-			  }
+<head>
+<meta charset="ISO-8859-1">
+<title>Gestor Post</title>
+<script src="../angular.js"></script>
+</head>
+<body ng-app="appRest" ng-controller="contRest">
 
-		  });
-		</script>
-	</body>
+<h1>Gestor Posts</h1>
+
+<p>
+	<button ng-click="add()">Añade un post</button>
+</p>
+
+<ul>
+   <li ng-repeat="dato in datos">{{dato.userId}}
+   	<ul>
+   	   <li ng-repeat="post in dato.posts"> {{post.id}} - {{post.title}}</li>
+   	</ul>
+   
+   </li>
+</ul>
+
+<script>
+
+var app=angular.module("appRest",[]);
+app.controller("contRest",function($scope,$http){
+	
+	var url="http://jsonplaceholder.typicode.com";
+	$scope.datos=[];
+	
+	$http.get(url+"/posts")
+		 .success(function(data){
+			 //$scope.datos=data;
+						 
+			 var i, aux, userPost,user=0;
+			 var lista=[];
+			 var post={};
+ 			 var userPost={userId:0,posts:[]}
+			 for (i=0; i<data.length;i++){		  
+				  
+				 post= {userId: data[i].userId,
+		  				 id: data[i].id,
+			  				title:data[i].title};
+				 
+				if(userPost.userId == 0){
+					 userPost.userId=post.userId;
+					 userPost.posts.push({id:post.id,title:post.title});
+				 }
+			     else{
+			    	 
+					 if (userPost.userId==post.userId){
+						 userPost.posts.push({id:post.id,title:post.title});
+					 }
+					 else {
+						 lista.push({userId:userPost.userId,
+							 		 posts:userPost.posts});
+						 
+						 userPost.userId=post.userId;
+						 userPost.posts=[];
+						 userPost.posts.push({id:post.id,title:post.title});
+					 }
+				 }	
+				 
+				
+				 
+			 }
+			 
+ 			$scope.datos = lista;
+		 })
+		 
+		 
+    var post={userId:1,
+		      id:1,
+		      title:"Este es el título",
+		      body:"Este es el body"
+		     }
+	
+    $scope.add=function(){
+		$http.put(url+"/posts/1",post)
+		.success(function(data){
+			console.log(data);
+		});
+		
+	}
+})
+
+</script>
+
+</body>
 </html>

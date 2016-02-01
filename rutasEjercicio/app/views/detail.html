@@ -1,0 +1,12 @@
+<div class="container" ng-controller="DetailCtrl">
+  <h1>Información acerca del terremoto: {{id}}</h1>
+  
+  <p>Location: </p>
+  <p>Time: </p>
+  <p>Nearby Cities: </p>
+  <!-- 38.248 °N 118.341 °W depth=7.2 km (4.5 mi) -->
+  
+
+  <img src="{{img_mapa}}" alt="Mapa">
+  <a class="btn btn-success" target="_blank" ng-href="http://earthquake.usgs.gov/earthquakes/eventpage/{{id}}#general_map">View interactive map</a>
+</div>

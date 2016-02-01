@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class="no-js">
   <head>
     <meta charset="utf-8">
     <title></title>
@@ -12,11 +12,10 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
     <!-- endbuild -->
   </head>
-  <body ng-app="holaYeomanApp">
-    <!--[if lte IE 8]>
+  <body ng-app="restApp">
+    <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
@@ -26,7 +25,7 @@
         <div class="container">
           <div class="navbar-header">
 
-            <a class="navbar-brand" href="#/">holaYeoman</a>
+            <a class="navbar-brand" href="#/">rest</a>
           </div>
 
           <div class="collapse">
@@ -41,11 +40,8 @@
       </div>
     </div>
 
-    <div class="container" ng-controller="MainCtrl">
-    	<!-- <div ng-include="'http://www.refsnesdata.no/angular_include.asp'"></div> -->
-    	
-    	<div ng-include="url"></div>
-		<button class="btn btn-success" ng-click="toggle()">Alternar vista</button>
+    <div class="container">
+    <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
     </div>
 
     <div class="footer">
@@ -60,7 +56,7 @@
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
        (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
        r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+       }(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
        ga('create', 'UA-XXXXX-X');
        ga('send', 'pageview');

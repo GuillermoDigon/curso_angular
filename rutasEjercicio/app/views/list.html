@@ -1,0 +1,25 @@
+<div class="container" ng-controller="ListCtrl">
+  <h1>Listado de terremotos</h1>
+  
+  <table class="table">
+  	<thead>
+  		<tr>
+  			<th>#</th>
+  			<th>Id</th>
+  			<th>Date</th>
+  			<th>Action</th>
+  		</tr>
+  	</thead>
+  	<tbody>
+  		<tr ng-repeat="terremoto in terremotos">
+  			<td>{{$index+1}}</td>
+  			<td>{{terremoto.id}}</td>
+  			<td>{{terremoto.properties.time | date:'medium'}}</td>
+  			<td>
+  				<a class="btn btn-success" ng-href="#detail/{{terremoto.id}}">Ver</a>
+  			</td>
+  		</tr>
+  	</tbody>
+  </table>
+
+</div>
