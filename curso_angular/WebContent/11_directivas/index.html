@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Directivas propias</title>
+		<script src="../angular.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+	
+		<buscador busqueda="valor"></buscador>
+	
+		<script>
+			var app = angular.module("app",[]);
+			app.controller("cont", function($scope) {
+				$scope.valor = "valor";
+			})
+			app.directive("buscador", function() {
+				return {
+					restrict: 'E',
+					scope: { //'@',
+						busqueda:'='
+					},
+					template: '<div>' + 
+								'<label>Buscador: </label>' + 
+								'<input type="search" placeholder="Introduce tu búsqueda" value="{{busqueda}}" />' + 
+								'</div>'
+				}
+			})
+		</script>
+	
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Angular Translate</title>
+		<script src="../angular.js"></script>
+		<script src="../angular-translate.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+	
+		<p><a href="#">{{'TITULO' | translate}}</a> {{'DESC' | translate}}</p>
+	
+		<div>
+			<button class="btn" ng-click="cambiarIdioma()" translate="BUTTON_LANG">Cambiar idioma</button>
+		</div>
+              
+		<script>
+			var app = angular.module("app", ['pascalprecht.translate']);
+			
+			app.config(function ($translateProvider) {
+				$translateProvider.translations('es', {
+					TITULO: 'Inicio',
+					DESC: 'Página de inicio.',
+					BUTTON_LANG: 'Cambiar idioma'
+				});
+				
+				$translateProvider.translations('en', {
+					TITULO: 'Home',
+					DESC: 'Home page.',
+					BUTTON_LANG: 'Change language'
+				});
+				
+				$translateProvider.preferredLanguage('es');
+			});
+
+			app.controller("cont", function($scope, $translate) {
+				$scope.idioma = "es";
+				
+				$scope.cambiarIdioma = function () {
+					$scope.idioma = ($scope.idioma=="es")?"en":"es"; 
+					$translate.use($scope.idioma);
+				};
+			})
+
+		</script>
+	
+	</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Jasmine</title>
+		<link rel="shortcut icon" type="image/png" href="../jasmine-standalone-2.3.4/lib/jasmine-2.3.4/jasmine_favicon.png">
+		<link rel="stylesheet" href="../jasmine-standalone-2.3.4/lib/jasmine-2.3.4/jasmine.css">
+		<script src="../jasmine-standalone-2.3.4/lib/jasmine-2.3.4/jasmine.js"></script>
+		<script src="../jasmine-standalone-2.3.4/lib/jasmine-2.3.4/jasmine-html.js"></script>
+		<script src="../jasmine-standalone-2.3.4/lib/jasmine-2.3.4/boot.js"></script>
+		<script src="codificador.js"></script>
+	</head>
+	<body ng-app="app" ng-controller="cont">
+
+		<script>
+
+	    	describe("test", function() {
+				var instanciaA1 = {
+						p1: "p 1 de A1",
+						p2: "p 2 de A1"
+				}
+				
+				instanciaA1.p3 = "p 3 de A1";
+				
+				var instanciaA2 = instanciaA1;
+				
+				it("instanciaA1 propiedades iniciales", function() {
+					expect(instanciaA1.p1).toEqual("p 1 de A1");
+					expect(instanciaA1.p1).toEqual("p 1 de A1");
+				})
+				
+				it("Comparar dos objectos", function() {
+					expect(instanciaA1.p1).toEqual(instanciaA2.p1);
+					expect(instanciaA1.p2).toEqual(instanciaA2.p2);
+					expect(instanciaA1.p3).toEqual(instanciaA2.p3);
+				})
+	    	});
+	    	
+	    	var cod;
+	    	
+	    	describe("Especificación de la codificación", function() {
+	    		beforeEach(function() {
+	    			cod = new codificador(3);
+	    		});
+				
+				it("La cadena de texto 'A' la convierto en 'D' ", function() {
+					expect(cod.encode('A')).toEqual("D");
+				});
+				
+				it("La cadena de texto 'AB' la convierto en 'DE' ", function() {
+					expect(cod.encode('AB')).toEqual("DE");
+				});
+	    	});
+	    	
+	    	describe("Especificacion de la codificación", function(){
+				beforeEach(function(){
+					cod = new codificador(3); 
+				});
+	    		 
+				it("La cadena de texto 'A' la convierto en 'D' ", function(){
+					expect(cod.caracterAnterior(1)).toEqual('E');
+				});
+	    		 
+				it("La cadena de texto 'dEF' la convierto en 'ABC' ", function(){
+					expect(cod.decode('dEF')).toEqual('ABC');
+				});
+	    		 
+				it("La cadena de texto 'd?E' la convierto en 'A?B' ", function(){
+					expect(cod.decode('d?E')).toEqual('A?B');
+					expect(cod.decode('d?E')).not.toBe('AB');
+				});
+				
+				var i = "a";
+				
+				it("La variable i está undefined ", function(){
+					expect(i).not.toBeUndefined();
+				});
+			});
+		</script>
+	
+	</body>
+</html>
