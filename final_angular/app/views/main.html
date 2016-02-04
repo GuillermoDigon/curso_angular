@@ -1,8 +1,5 @@
 <div class="jumbotron">
   <h1>Proyecto final</h1>
-  <!-- <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-  </p> -->
 
 <form>
 	<div class="form-group" id="block_medios">
@@ -73,72 +70,28 @@
 						Deportes
 					</label>
 				</div>
-				<!-- <div class="checkbox">
-					<label>
-						<input type="checkbox" name="secciones" value="Ciencia y Tecnología">
-						Ciencia y Tecnología
-					</label>
-				</div> -->
 			</div>
 		</fieldset>
 	</div>
-	
-  
-		<!-- Bloque de medios -->
-		<!-- <ul class="list-group">
-			<li class="list-group-item">
-				<input type="checkbox" id="allMedios_"> Medios de comunicación
-			</li>
-			<li class="list-group-item">
-				<input type="checkbox"> El País <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://ep00.epimg.net/rss/elpais/portada.xml';loadFeed($event)">Leer XML</button>
-			</li>
-			<li class="list-group-item">
-				<input type="checkbox"> ABC <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://www.abc.es/rss/feeds/abcPortada.xml';loadFeed($event)">Leer XML</button>
-			</li>
-			<li class="list-group-item">
-				<input type="checkbox"> El Mundo <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://estaticos.elmundo.es/elmundo/rss/portada.xml';loadFeed($event)">Leer XML</button>
-			</li>
-		</ul> -->
-		
-		<!-- Bloque de secciones -->
-		<!-- <ul class="list-group">
-			<li class="list-group-item">
-				<input type="checkbox" id="allSecciones_"> Secciones
-			</li>
-			
-			<li class="list-group-item">
-				<input type="checkbox"> España
-			</li>
-			<li class="list-group-item">
-				<input type="checkbox"> Internacional
-			</li>
-			<li class="list-group-item">
-				<input type="checkbox"> Cultura
-			</li>
-			<li class="list-group-item">
-				<input type="checkbox"> Deportes
-			</li>
-		</ul> -->
 
-	<p>
-		<!-- <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://estaticos.marca.com/rss/portada.xml';loadFeed($event)">Leer XML</button> -->
-		<button type="button" class="btn btn-xs btn-success" ng-click="loadData()">Buscar</button><!-- ng-click="submitForm($event)" -->
+  	<p>
+		<button type="button" class="btn btn-xs btn-success" ng-click="loadFeed($event)">Buscar</button><!-- ng-click="submitForm($event)" -->
 	</p>
 
 </form>
 </div>
 
-<p>Medios: {{listamedios}}</p>
+<!-- <p>Medios: {{listamedios}}</p>
 <p>Secciones: {{listasecciones}}</p>
 <p>Filtro: {{filtro}}</p>
-<!-- <p>Data: {{data}}</p> -->
+<p>URLs: {{urls}}</p> -->
 
-<div class="row marketing">
+<!-- <div class="row marketing">
 	<div class="row-fluid">
 		<ul class="unstyled">
-			<span class="badge badge-success" ng-show="feeds.length > 0">{{(feeds | filter:filterText).length}} Items</span>
+			<span class="badge badge-success" ng-show="allFeeds.length > 0">{{(allFeeds | filter:filterText).length}} Items</span>
 			
-			<li ng-repeat="feed in feeds">                    
+			<li ng-repeat="feed in allFeeds">                    
 				<h5><a href="{{feed.link}}">{{feed.title}}</a></h5>                                        
 				<p class="text-left">{{feed.contentSnippet}}</p>                    
 				<span class="small">{{feed.publishedDate}}</span>
@@ -146,18 +99,48 @@
 		</ul>            
 	</div>
 </div>
+ -->
 
+<span class="badge badge-success" ng-show="allFeeds.length > 0">{{(allFeeds | filter:filterText).length}} Resultados</span>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Título</th>
+			<th>Autor</th>
+			<th>Medio</th>
+			<th>Sección</th>
+			<!-- <th>Fecha</th> -->
+			<th>Resumen</th>
+			<th>Favoritos</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="feed in allFeeds">
+			<td><a href="{{feed.link}}" TARGET="_blank">{{feed.title}}</a></td>
+			<td>{{feed.author}}</td>
+			<td>{{feed.medio}}</td>
+			<td>{{feed.seccion}}</td>
+			<!-- <td>{{feed.publishedDate | date:'yyyy-MM-dd HH:mm:ss'}}</td> -->
+			<td>{{feed.contentSnippet}}</td>
+			<td>
+				<button type="button" class="btn btn-xs btn-favorites" title="Añadir a favoritos" ng-show="!isFavorite($index)" ng-click="addFavorite($index)" ><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></button>
+				<button type="button" class="btn btn-xs btn-favorites" title="Eliminar de favoritos" ng-show="isFavorite($index)" ng-click="removeFavorite($index)" ><span class="glyphicon glyphicon-star" style="color: yellow;" aria-hidden="true"></span></button>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 <script>
-$('#allMedios, #allSecciones').on('change', function() {
+/* $('#allMedios, #allSecciones').on('change', function() {
 console.log($(this).attr('id') + ' value of checked = "' + $(this).is(':checked') + '"');
-	$(this).parents('div.form-group'/*'ul'*/).find('input[type="checkbox"]').prop('checked',$(this).is(':checked'));
+	$(this).parents('div.form-group').find('input[type="checkbox"]').prop('checked',$(this).is(':checked'));
 	
 	// FIXME: Actualizar array javascript de secciones y medios
 	
-})
-$('form').submit(function(e) {
+}) */
+
+/*$('form').submit(function(e) {
 console.log('== Método submit del form ejecutado ==');
 
-})
+})*/
 </script>
