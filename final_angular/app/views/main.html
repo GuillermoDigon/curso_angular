@@ -1,23 +1,163 @@
 <div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
+  <h1>Proyecto final</h1>
+  <!-- <p class="lead">
     <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
+  </p> -->
+
+<form>
+	<div class="form-group" id="block_medios">
+		<fieldset>
+			<legend>
+				<!-- <input type="checkbox" id="allMedios" value="" name="medios" checklist-value="medios"> -->
+				Listado de medios a visualizar
+			</legend>
+			<div class="row col">
+				<div class="checkbox">
+					<label>
+						<!-- <input type="checkbox" name="bacon" checklist-value="bacon" ng-model="checked" class="ng-scope ng-pristine ng-untouched ng-valid ng-empty" checklist-model="inputIngredientes"> -->
+						<input type="checkbox" name="medios" value="El País" ng-change="loadMedios()" ng-model="medios['El País']">
+						El País 
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="medios" value="ABC" ng-change="loadMedios()" ng-model="medios['ABC']">
+						ABC
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="medios" value="El Mundo" ng-change="loadMedios()" ng-model="medios['El mundo']">
+						El Mundo
+					</label>
+				</div>
+				<!-- <div class="checkbox">
+					<label>
+						<input type="checkbox" ng-true-value="Marca" name="medios" checklist-value="medios" value="Marca">
+						Marca
+					</label>
+				</div> -->
+			</div>
+		</fieldset>
+	</div>
+	
+	<div class="form-group" id="block_secciones">
+		<fieldset>
+			<legend>
+				<!-- <input type="checkbox" id="allSecciones" name="secciones" checklist-value="medios"> -->
+				Listado de secciones a visualizar
+			</legend>
+			<div class="row col">
+				<div class="checkbox">
+					<label>
+						<!-- <input type="checkbox" name="bacon" checklist-value="bacon" ng-model="checked" class="ng-scope ng-pristine ng-untouched ng-valid ng-empty" checklist-model="inputIngredientes"> -->
+						<input type="checkbox" name="secciones" value="España" ng-change="loadSecciones()" ng-model="secciones['España']">
+						España 
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="secciones" value="Internacional" ng-change="loadSecciones()" ng-model="secciones['Internacional']">
+						Internacional
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="secciones" value="Cultura" ng-change="loadSecciones()" ng-model="secciones['Cultura']">
+						Cultura
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="secciones" value="Deportes" ng-change="loadSecciones()" ng-model="secciones['Deportes']">
+						Deportes
+					</label>
+				</div>
+				<!-- <div class="checkbox">
+					<label>
+						<input type="checkbox" name="secciones" value="Ciencia y Tecnología">
+						Ciencia y Tecnología
+					</label>
+				</div> -->
+			</div>
+		</fieldset>
+	</div>
+	
+  
+		<!-- Bloque de medios -->
+		<!-- <ul class="list-group">
+			<li class="list-group-item">
+				<input type="checkbox" id="allMedios_"> Medios de comunicación
+			</li>
+			<li class="list-group-item">
+				<input type="checkbox"> El País <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://ep00.epimg.net/rss/elpais/portada.xml';loadFeed($event)">Leer XML</button>
+			</li>
+			<li class="list-group-item">
+				<input type="checkbox"> ABC <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://www.abc.es/rss/feeds/abcPortada.xml';loadFeed($event)">Leer XML</button>
+			</li>
+			<li class="list-group-item">
+				<input type="checkbox"> El Mundo <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://estaticos.elmundo.es/elmundo/rss/portada.xml';loadFeed($event)">Leer XML</button>
+			</li>
+		</ul> -->
+		
+		<!-- Bloque de secciones -->
+		<!-- <ul class="list-group">
+			<li class="list-group-item">
+				<input type="checkbox" id="allSecciones_"> Secciones
+			</li>
+			
+			<li class="list-group-item">
+				<input type="checkbox"> España
+			</li>
+			<li class="list-group-item">
+				<input type="checkbox"> Internacional
+			</li>
+			<li class="list-group-item">
+				<input type="checkbox"> Cultura
+			</li>
+			<li class="list-group-item">
+				<input type="checkbox"> Deportes
+			</li>
+		</ul> -->
+
+	<p>
+		<!-- <button type="button" class="btn btn-xs btn-success" ng-click="feedSrc='http://estaticos.marca.com/rss/portada.xml';loadFeed($event)">Leer XML</button> -->
+		<button type="button" class="btn btn-xs btn-success" ng-click="loadData()">Buscar</button><!-- ng-click="submitForm($event)" -->
+	</p>
+
+</form>
 </div>
+
+<p>Medios: {{listamedios}}</p>
+<p>Secciones: {{listasecciones}}</p>
+<p>Filtro: {{filtro}}</p>
+<!-- <p>Data: {{data}}</p> -->
 
 <div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
-
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
-
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+	<div class="row-fluid">
+		<ul class="unstyled">
+			<span class="badge badge-success" ng-show="feeds.length > 0">{{(feeds | filter:filterText).length}} Items</span>
+			
+			<li ng-repeat="feed in feeds">                    
+				<h5><a href="{{feed.link}}">{{feed.title}}</a></h5>                                        
+				<p class="text-left">{{feed.contentSnippet}}</p>                    
+				<span class="small">{{feed.publishedDate}}</span>
+			</li>                
+		</ul>            
+	</div>
 </div>
+
+
+<script>
+$('#allMedios, #allSecciones').on('change', function() {
+console.log($(this).attr('id') + ' value of checked = "' + $(this).is(':checked') + '"');
+	$(this).parents('div.form-group'/*'ul'*/).find('input[type="checkbox"]').prop('checked',$(this).is(':checked'));
+	
+	// FIXME: Actualizar array javascript de secciones y medios
+	
+})
+$('form').submit(function(e) {
+console.log('== Método submit del form ejecutado ==');
+
+})
+</script>
